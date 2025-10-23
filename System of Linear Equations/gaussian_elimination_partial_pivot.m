@@ -1,5 +1,5 @@
-function [x, returnValue] = gaussian_elimination(A, B)
-    % solves Ax = B using Gaussian Elimination
+function [x, returnValue] =  gaussian_elimination_partial_pivot(A, B)
+    % solves Ax = B using Gaussian Elimination with partial pivotting
     % ensure returnValue = 0 before reading soultion
 
     [row_size, column_size] = size(A);
@@ -19,6 +19,11 @@ function [x, returnValue] = gaussian_elimination(A, B)
 
     for i = 1: n
         for j = i+1: n
+            %Partial Pivot
+            [~ ,pos] = max(abs(C(i:n, i)));
+            pos = pos + i - 1;
+            C([pos, i], :) = C([i, pos], :);
+
             lambda = C(j, i)/C(i, i);
             C(j, :) = C(j, :) - lambda*C(i, :);
         end
